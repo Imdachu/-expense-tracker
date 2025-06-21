@@ -51,7 +51,7 @@ Date,Category,Amount,Description
 
 ```
 --- Spending Overview ---
-Total Amount Spent: $5,400.00
+Total Amount Spent: 5,400.00
 
 Highest Expense:
 Date           2025-06-12
@@ -70,22 +70,22 @@ Name: 1, dtype: object
 --- Category-wise Analysis ---
 
 Category: Food
-  Total Amount: $150.00
+  Total Amount: 150.00
   Transactions: 1
   Percentage: 2.78%
 
 Category: Rent
-  Total Amount: $5,000.00
+  Total Amount: 5,000.00
   Transactions: 1
   Percentage: 92.59%
 
 Category: Transport
-  Total Amount: $50.00
+  Total Amount: 50.00
   Transactions: 1
   Percentage: 0.93%
 
 Category: Utilities
-  Total Amount: $200.00
+  Total Amount: 200.00
   Transactions: 1
   Percentage: 3.7%
 
