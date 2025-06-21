@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import os
 
-# Configure matplotlib backend for better compatibility
+# Setting up matplotlib to avoid display issues (especially on systems without GUIs)
 plt.switch_backend('Agg')  # Use non-interactive backend
 
-# Ensure all rows are displayed in the output
+# Making sure we can see all rows in DataFrame outputs
 pd.set_option('display.max_rows', None)
 
 def add_expense():
@@ -17,7 +17,7 @@ def add_expense():
     print("\n--- Add New Expense ---")
     try:
         date = input("Enter date (YYYY-MM-DD): ")
-        # Validate date format
+        # Just double-checking if the user entered the date in the correct format
         datetime.strptime(date, '%Y-%m-%d')
 
         category = input("Enter category: ")
@@ -26,7 +26,7 @@ def add_expense():
 
         new_expense = pd.DataFrame([[date, category, amount, description]], columns=['Date', 'Category', 'Amount', 'Description'])
         
-        # Check if file exists to determine if we need headers
+        # If the file already exists, we won't add the header again
         file_exists = os.path.exists('expenses.csv')
         new_expense.to_csv('expenses.csv', mode='a', header=not file_exists, index=False)
         print("Expense added successfully!")
@@ -53,9 +53,10 @@ def expense_analysis():
         if df.empty:
             print("No expenses found in the CSV file.")
             return
-        df['Date'] = pd.to_datetime(df['Date']) # Convert Date column to datetime objects
+        # Converting date strings into actual datetime objects
+        df['Date'] = pd.to_datetime(df['Date'])
 
-        # --- Bonus: Filter by Date ---
+        # Giving users the option to focus on specific dates
         filter_choice = input("Do you want to filter expenses by date? (yes/no): ").lower()
         if filter_choice == 'yes':
             start_date_str = input("Enter start date (YYYY-MM-DD): ")
@@ -65,9 +66,9 @@ def expense_analysis():
                 end_date = pd.to_datetime(end_date_str)
                 df = df[(df['Date'] >= start_date) & (df['Date'] <= end_date)]
             except ValueError:
-                print("Invalid date format. Skipping filter.")
+                print("Hmm... that date format doesn't look right. Skipping date filter.")
 
-        # --- 1. Total Spending Overview ---
+        # Let's give you an overview of your total spending
         print("--- Spending Overview ---")
 
         # Calculate the total amount spent
@@ -78,7 +79,7 @@ def expense_analysis():
 
         print(f"Total Amount Spent: ${total_spent:,.2f}")
 
-        # Find the highest expense (with safety check)
+        # Let's show you the highest and lowest expenses
         if not df.empty:
             highest_expense = df.loc[df['Amount'].idxmax()]
             print("\nHighest Expense:")
@@ -89,19 +90,19 @@ def expense_analysis():
             print("\nLowest Expense:")
             print(lowest_expense)
 
-        # --- 2. Category-wise Analysis ---
+        # Now let's dive into how much you've spent in each category
         print("\n--- Starting Category-wise Analysis ---")
         # Group by category and calculate sum and count
         category_analysis = df.groupby('Category')['Amount'].agg(TotalAmount='sum', Transactions='count').reset_index()
         print("\n--- DataFrame after Grouping and Aggregation ---")
         print(category_analysis)
 
-        # Calculate the percentage of total spending for each category
+        # Let's see what share each category holds in your total expenses
         category_analysis['Percentage'] = (category_analysis['TotalAmount'] / total_spent * 100).round(2)
         print("\n--- DataFrame after Calculating Percentages ---")
         print(category_analysis)
 
-        # --- Bonus: Export Summary Report ---
+        # Let's also give you a CSV summary report to keep for records
         try:
             category_analysis.to_csv('summary_report.csv', index=False)
             print("\nSummary report 'summary_report.csv' generated successfully.")
@@ -109,7 +110,7 @@ def expense_analysis():
             print(f"\nError exporting summary report: {e}")
 
         print("\n--- Final Output Loop ---")
-        # Print each row of the category analysis
+        # Giving you a friendly breakdown for each category
         for index, row in category_analysis.iterrows():
             print(f"\nProcessing row {index}:")
             print(row)
@@ -118,15 +119,16 @@ def expense_analysis():
             print(f"  Transactions: {row['Transactions']}")
             print(f"  Percentage: {row['Percentage']}%")
 
-        # --- 3. Optional Visual (Bonus) ---
+        # Time for a visual – a pie chart to help you see the distribution at a glance
         print("\n--- Generating Pie Chart ---")
         try:
             plt.figure(figsize=(10, 7))
             plt.pie(category_analysis['TotalAmount'], labels=category_analysis['Category'], autopct='%1.1f%%', startangle=140)
             plt.title('Expense Distribution by Category')
-            plt.ylabel('') # Hide the y-label
+            # No need for a y-label here
+            plt.ylabel('') 
             
-            # Save the plot instead of showing it (more reliable)
+            # Save the chart as an image file for easy viewing later
             plt.savefig('expense_pie_chart.png', dpi=300, bbox_inches='tight')
             print("Pie chart saved as 'expense_pie_chart.png'")
             plt.close()  # Close the figure to free memory
@@ -139,9 +141,10 @@ def expense_analysis():
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    # Ask user if they want to add an expense
+    # Asking the user if they'd like to log a new expense first
     add_choice = input("Do you want to add a new expense? (yes/no): ").lower()
     if add_choice == 'yes':
         add_expense()
         
+    # Either way, we'll run the analysis after that
     expense_analysis()
