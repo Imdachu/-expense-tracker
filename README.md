@@ -92,4 +92,6 @@ Category: Utilities
 --- Generating Pie Chart ---
 (A window opens with the pie chart)
 ```
+![image](https://github.com/user-attachments/assets/227a8479-5052-4fd1-9b8f-caf109158d0e)
+
 
