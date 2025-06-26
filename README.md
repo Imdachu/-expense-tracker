@@ -33,9 +33,9 @@ It also includes bonus features such as:
 -   **Spending Overview**: Calculates and displays total spending, highest expense, and lowest expense.
 -   **Category Analysis**: Groups expenses by category and calculates total spend, transaction count, and percentage of total spend for each.
 -   **Pie Chart Visualization**: Generates a pie chart to visualize the distribution of expenses across categories.
--   **Date Filtering **: Allows users to filter the expense analysis for a specific date range.
--   **Dynamic Expense Entry **: Allows users to add new expense records, which are saved to the CSV file.
--   **Report Export **: Saves the category-wise summary analysis to `summary_report.csv`.
+-   Date Filtering : Allows users to filter the expense analysis for a specific date range.
+-   Dynamic Expense Entry : Allows users to add new expense records, which are saved to the CSV file.
+-   Report Export : Saves the category-wise summary analysis to `summary_report.csv`.
 
 ## Sample Input (`expenses.csv`)
 
